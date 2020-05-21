@@ -1,5 +1,8 @@
 # ML_TransferLearning
-Project to evaluate Transfer Learning Potential between MNIST/NIST/ImageNet data sets
+_Sharice Mayer, Cyrus Rice, Lane Barton, Shehab Ibrahim_ 
+
+Project to evaluate Transfer Learning Potential between MNIST/NIST/ImageNet data sets 
+
 
 ## Transfer Learning using a Multilayer Neural Network
 ### ML Spring 2020 Project Proposal
