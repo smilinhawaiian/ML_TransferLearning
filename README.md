@@ -2,15 +2,13 @@
 Project to evaluate Transfer Learning Potential between MNIST/NIST/ImageNet data sets
 
 ## Transfer Learning using a Multilayer Neural Network
-ML Spring 2020 Project Proposal
+### ML Spring 2020 Project Proposal
 
-_Tasks_:
-
+#### Tasks:
 - Evaluate transfer learning as it applies to training a network to classify handwritten characters to digits, and digits to characters. (Transfer classification from one domain to a similar domain)
 - Evaluate any patterns the pre-trained network may identify within an image set, if trained to classify handwritten characters or digits, and tested on a set of images. (Transfer classification from one domain to another)
 
-_Algorithm_:
-
+#### Algorithm:
 For this project, we have decided to implement a fully-connected multilayer neural network with the following characteristics:
 - Feed forward 
 - Back propagation
@@ -25,8 +23,7 @@ Given enough time, we would like to implement K-means to test our data using uns
 We plan to implement our code for both algorithms using python. 
 
 
-_Datasets_:
-
+#### Datasets:
 We will be using: 
 - MNIST Database of handwriten digits 
   http://yann.lecun.com/exdb/mnist/
@@ -36,8 +33,7 @@ We will be using:
   http://image-net.org/download-images
 
 
-_Hypothesis_: 
-
+#### Hypothesis: 
 We think that the Neural Network will learn to classify handwritten digits faster using a neural network already trained to classify handwritten characters than it would from scratch. We also think that the reverse should be true - a MLNN trained to classify handwritten digits will learn to classify handwritten characters faster than from scratch. We also think that we may see some interesting classification when we apply the trained network to a new domain - classifying images. 
 
 It's possible that we may not see the "class" of classification right away by looking at the images in each class, but we do hope to see some patterns forming in terms of the network's classification. For example, we may perhaps see that the images recognized arches in photos and grouped them, or perhaps saw similar building structures and grouped them together, or perhaps similar people or animals may be grouped together. We aren't entirely sure what results we may get, but hope that we see some interesting or unexpected classification happening. 
