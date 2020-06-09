@@ -1,4 +1,5 @@
 import numpy as np
+from numpy import loadtxt
 import random
 import sys
 from matplotlib import pyplot as plt
@@ -13,29 +14,36 @@ from sklearn import metrics
 from sklearn.decomposition import PCA
 
 #### DATA PREP #### David's dimensionality reduction code
-def get_reduced_data(source, data_size, data_max):
+def get_reduced_data(source, data_size, data_max, num_clusters):
     # smaller number for faster convergence
     train_samples = data_size
     # Load data from https://www.openml.org/d/554
-    X, y = fetch_openml(source, version=1, return_X_y=True)
+    #X, y = fetch_openml(source, version=1, return_X_y=True)
+    data_set = np.loadtxt(source, delimiter=',')
+    #X = data_set[:,1:]
+    #y = data_set[:,:1]
+    X = data_set[:,:]
     #print(X.shape, y.shape)
     
     random_state = check_random_state(0)
     permutation = random_state.permutation(X.shape[0])
     X = X[permutation]
-    y = y[permutation]
+    #y = y[permutation]
     X = X.reshape((X.shape[0], -1))
     
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, train_size=train_samples, test_size=1000)
+    #X_train, X_test, y_train, y_test = train_test_split(
+     #   X, y, train_size=train_samples, test_size=1000)
+    X_train, X_test,  = train_test_split(
+        X, train_size=train_samples, test_size=1000)
     
     X_train = X_train/data_max
     X_test = X_test/data_max
     
     data = X_train
     n_samples, n_features = data.shape
-    n_digits = len(np.unique(y_train))
-    labels = y_train
+    #n_digits = len(np.unique(y_train))
+    n_digits = num_clusters
+    #labels = y_train
     
     sample_size = data_size
     # original dataset dimensionality
@@ -75,11 +83,11 @@ def plot_k_means(title,assign,data,means):
 # K-means algorithm, takes as input data source (reduce it first),
 # number of initializations, data_size to use, and max value of a data point
 # Returns final centroids, assignments for each data point, and the reduced data
-def k_means(data_source, inits, data_size, data_max): 
+def k_means(data_source, inits, data_size, data_max, num_clusters): 
     rand_r = random.randrange(1,inits+1)
     local_err = global_err = sys.float_info.max
     optimal_centroids = optimal_assignment = np.zeros(1)
-    k, data = get_reduced_data(data_source, data_size, data_max)
+    k, data = get_reduced_data(data_source, data_size, data_max, num_clusters)
     
     for r in range(1,inits+1):
         local_err = it = assign_same = 0.0
@@ -122,11 +130,11 @@ def k_means(data_source, inits, data_size, data_max):
 # ************MAIN**************
 
 # compute and plot k-means for mnist
-centroids, assignment, data = k_means('mnist_784', 1, 5000, 255)
+centroids, assignment, data = k_means('data-csv/mnist-test-set.csv', 1, 5000, 255, 10)
 plot_k_means('Mnist K-means', assignment, data, centroids) 
 
 # compute and plot k-means for letter
-centroids, assignment, data = k_means('letter', 1, 5000, 15)
-plot_k_means('Letter K-means', assignment, data, centroids) 
+centroids, assignment, data = k_means('../atoz.csv', 1, 5000, 255, 26)
+plot_k_means('A-Z K-means', assignment, data, centroids) 
 
 plt.show()
