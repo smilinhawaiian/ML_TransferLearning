@@ -15,10 +15,10 @@ dataset = pd.read_csv(
 # Shuffle dataset randomly (data is sorted by label)
 dataset = shuffle(dataset)
 dataset = dataset.values
-# Split dataset intro inputs and labels
-dataset.rename(columns={'0': 'label'}, inplace=True)
-images = dataset.drop('label', axis=1)
-labels = dataset['label']
+
+# Split dataset into inputs and labels
+images = dataset[:, 1:]
+labels = dataset[:, 0]
 
 # Split into train and test data after normalizing
 (trainImages, testImages, trainLabels, testLabels) = train_test_split(
@@ -35,3 +35,4 @@ testLabels = testLabels.reshape(-1, 1)
 ohe.fit(testLabels)
 testLabels = ohe.transform(testLabels)
 testLabels = testLabels.toarray()
+
