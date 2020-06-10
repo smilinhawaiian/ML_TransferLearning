@@ -83,7 +83,7 @@ def plot_k_means(title,assign,data,means):
 # K-means algorithm, takes as input data source (reduce it first),
 # number of initializations, data_size to use, and max value of a data point
 # Returns final centroids, assignments for each data point, and the reduced data
-def k_means(data_source, inits, data_size, data_max, num_clusters): 
+def k_means(data_source, inits, data_size, data_max, num_clusters, initial_centroids): 
     rand_r = random.randrange(1,inits+1)
     local_err = global_err = sys.float_info.max
     optimal_centroids = optimal_assignment = np.zeros(1)
@@ -94,8 +94,15 @@ def k_means(data_source, inits, data_size, data_max, num_clusters):
         assignment = np.arange(np.shape(data)[0])
         # initialize centroid positions (means) 
         centroids = np.ones((k,np.shape(data)[1]))
+        temp_initial_centroids = np.copy(initial_centroids)
         for i in range(0,np.shape(centroids)[0]):
-            centroids[i] = data[random.randrange(np.shape(data)[0])]   
+            # initialize this runs centroids to previous passed in centroids (transfer learning)
+            if np.shape(temp_initial_centroids)[0] > 0:
+                rand_idx = random.randrange(np.shape(temp_initial_centroids)[0])
+                centroids[i] = temp_initial_centroids[rand_idx]
+                temp_initial_centroids = np.delete(temp_initial_centroids, rand_idx, 0)
+            else:
+                centroids[i] = data[random.randrange(np.shape(data)[0])]   
         # run algorithm until every points cluster assignment doesn't change
         while assign_same < np.shape(data)[0]:
             assign_same = 0
@@ -108,7 +115,10 @@ def k_means(data_source, inits, data_size, data_max, num_clusters):
                     assign_same = assign_same + 1
             # update centroid values
             for i in range(0,np.shape(centroids)[0]):
-                centroids[i] = np.sum(data[j] for j in range(0, np.shape(data)[0]) if assignment[j] == i) / np.count_nonzero(assignment == i)
+                if np.count_nonzero(assignment == i) == 0:
+                    centroids[i] = np.sum(data[j] for j in range(0, np.shape(data)[0]) if assignment[j] == i)
+                else:
+                    centroids[i] = np.sum(data[j] for j in range(0, np.shape(data)[0]) if assignment[j] == i) / np.count_nonzero(assignment == i)
                 # get sum of square error for this r-initialization run
                 if assign_same >= np.shape(data)[0]:
                     local_err = local_err + np.sum(np.sum(pow(data[j] - centroids[i],2) for j in range(0, np.shape(data)[0]) if assignment[j] == i))
@@ -130,11 +140,18 @@ def k_means(data_source, inits, data_size, data_max, num_clusters):
 # ************MAIN**************
 
 # compute and plot k-means for mnist
-centroids, assignment, data = k_means('data-csv/mnist-test-set.csv', 1, 5000, 255, 10)
-plot_k_means('Mnist K-means', assignment, data, centroids) 
+centroids = np.array([])
+start = time.time()
+centroids, assignment, data = k_means('../atoz.csv', 10, 30000, 255, 26, centroids)
+end = time.time()
+print("k-means took", end-start, "seconds")
+plot_k_means('K-means', assignment, data, centroids) 
 
 # compute and plot k-means for letter
-centroids, assignment, data = k_means('../atoz.csv', 1, 5000, 255, 26)
-plot_k_means('A-Z K-means', assignment, data, centroids) 
+start = time.time()
+centroids, assignment, data = k_means('../mnist_train.csv', 10, 30000, 255, 10, centroids)
+end=time.time()
+print("k-means took", end-start, "seconds")
+plot_k_means('K-means', assignment, data, centroids) 
 
 plt.show()
