@@ -95,14 +95,17 @@ def k_means(data_source, inits, data_size, data_max, num_clusters, initial_centr
         # initialize centroid positions (means) 
         centroids = np.ones((k,np.shape(data)[1]))
         temp_initial_centroids = np.copy(initial_centroids)
-        for i in range(0,np.shape(centroids)[0]):
+        temp_current_centroids = np.copy(centroids)
+        while np.shape(temp_current_centroids)[0] > 0:
+            rand_current_idx = random.randrange(np.shape(temp_current_centroids)[0])
             # initialize this runs centroids to previous passed in centroids (transfer learning)
             if np.shape(temp_initial_centroids)[0] > 0:
-                rand_idx = random.randrange(np.shape(temp_initial_centroids)[0])
-                centroids[i] = temp_initial_centroids[rand_idx]
-                temp_initial_centroids = np.delete(temp_initial_centroids, rand_idx, 0)
+                rand_initial_idx = random.randrange(np.shape(temp_initial_centroids)[0])
+                centroids[rand_current_idx] = temp_initial_centroids[rand_initial_idx]
+                temp_initial_centroids = np.delete(temp_initial_centroids, rand_initial_idx, 0)
             else:
-                centroids[i] = data[random.randrange(np.shape(data)[0])]   
+                centroids[rand_current_idx] = data[random.randrange(np.shape(data)[0])]   
+            temp_current_centroids = np.delete(temp_current_centroids, rand_current_idx, 0)
         # run algorithm until every points cluster assignment doesn't change
         while assign_same < np.shape(data)[0]:
             assign_same = 0
@@ -142,14 +145,14 @@ def k_means(data_source, inits, data_size, data_max, num_clusters, initial_centr
 # compute and plot k-means for mnist
 centroids = np.array([])
 start = time.time()
-centroids, assignment, data = k_means('../atoz.csv', 10, 30000, 255, 26, centroids)
+centroids, assignment, data = k_means('../atoz.csv', 1, 5000, 255, 26, centroids)
 end = time.time()
 print("k-means took", end-start, "seconds")
 plot_k_means('K-means', assignment, data, centroids) 
 
 # compute and plot k-means for letter
 start = time.time()
-centroids, assignment, data = k_means('../mnist_train.csv', 10, 30000, 255, 10, centroids)
+centroids, assignment, data = k_means('../mnist_train.csv', 1, 5000, 255, 10, centroids)
 end=time.time()
 print("k-means took", end-start, "seconds")
 plot_k_means('K-means', assignment, data, centroids) 
