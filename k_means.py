@@ -144,15 +144,16 @@ def k_means(data_source, inits, data_size, data_max, num_clusters, initial_centr
 
 # compute and plot k-means for mnist
 centroids = np.array([])
-start = time.time()
-centroids, assignment, data = k_means('../atoz.csv', 1, 5000, 255, 26, centroids)
-end = time.time()
-print("k-means took", end-start, "seconds")
-plot_k_means('K-means', assignment, data, centroids) 
+#start = time.time()
+centroids, assignment, data = k_means('../mnist_train.csv', 10, 30000, 255, 10, centroids)
+#end = time.time()
+#print("k-means took", end-start, "seconds")
+#plot_k_means('K-means', assignment, data, centroids) 
 
 # compute and plot k-means for letter
+#centroids = np.array([])
 start = time.time()
-centroids, assignment, data = k_means('../mnist_train.csv', 1, 5000, 255, 10, centroids)
+centroids, assignment, data = k_means('../atoz.csv', 10, 30000, 255, 26, centroids)
 end=time.time()
 print("k-means took", end-start, "seconds")
 plot_k_means('K-means', assignment, data, centroids) 
