@@ -1,1 +1,26 @@
-Stub for project report results discussion starting here
+Project report requirements:
+
+Your final deliverable will be a paper describing your project. 
+In the paper you will discuss your project in detail, situate it in the context of others' work, 
+and evaluate your progress as a team and as individuals. 
+The  paper  should  be  5-7  pages  long  (this  length  requirement  should  include results).  
+If your project involves building a system, 
+you should clearly state your goals for the system, 
+give an overview of its architecture, 
+and describe in some detail the algorithms selected to implement the MLmodules of the system. 
+You should also cite relevant research and other articles to situate your project in the broader 
+context of work in this general area. In assessing your system, you will need to clearly articulate 
+exactly what you are evaluating, how you have gone about performing evaluation, and how it stacks up. 
+For instance, say you've implemented a system that "reads" long articles and generates one-paragraph 
+summaries of them. 
+What inputs can your system handle? 
+What does it produce? 
+Have you built in any special domain knowledge that restricts the topic of the articles? 
+Does your system identify the most relevant information? Does it organize it well in terms of the flow of language? 
+Is it grammatically correct? 
+What are the limitations of your system? 
+If your project includes an empirical comparison of algorithms, you should clearly specify what you are  comparing,  
+what  you  are  measuring,  
+the  methodology  you  developed  for  the  empirical investigation, 
+and any data sets or existing code you used as part of the work. 
+You should discuss --critically and analytically --the results of the investigation.
