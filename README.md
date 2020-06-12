@@ -47,7 +47,8 @@ We will be using:
   https://www.kaggle.com/sachinpatel21/az-handwritten-alphabets-in-csv-format/home
 - ImageNet Image Database
   http://image-net.org/download-images
-
+- EMNIST Database of handwritten letters
+  https://www.nist.gov/itl/products-and-services/emnist-dataset
 
 #### Hypothesis: 
 We think that the Neural Network will learn to classify handwritten digits faster using 
